@@ -2,6 +2,8 @@
 # Modern Fan Control
 This is a custom fan-control GUI based on [NoteBook FanControl](https://github.com/hirschmann/nbfc)
 
+![Screenshot](./screenshot.png)
+
 NoteBook FanControl provides configurations for many notebooks. This tool can load these configuration files. **Note that this tool uses only a subset of the functions of NoteBook FanControl**. Nevertheless it also offers some extra features - and it is a good starting point, if you want to make very custom fan control.
 
 This project is primarily made for a **HP Spectre 15-df1015ng** as it contains a workaround, which makes controlling the fan possible (seems to be some rubbish thermalzone implementation from HP).

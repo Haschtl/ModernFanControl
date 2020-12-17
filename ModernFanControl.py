@@ -266,8 +266,6 @@ class ModernFanControl():
             self.write_lut = write_keypoints
         else:
             self.write_lut = None
-        # print(self.read_lut)
-        # print(self.write_lut)
 
     def read_value_to_percentage(self, value):
         if self.config["independentReadMinMaxValues"]:
@@ -430,14 +428,16 @@ Delta FanSpeed needed to set: {delta}%
             thresholds = self.temp_thresholds
             cur_threshold = self.cur_threshold
             if cur_temp > self.config["criticalTemperature"]:
-                written_value = self.set_fan_speed(self.config["maxSpeedValue"])
+                written_value = self.maybe_set_fan_speed(100)
                 return written_value
             if cur_threshold is not None and cur_temp > float(cur_threshold["DownThreshold"]) and cur_temp < float(cur_threshold["UpThreshold"]) and self.enabled.get() == 1:
-                written_value = self.set_fan_speed(cur_threshold["FanSpeed"])
+                written_value = self.maybe_set_fan_speed(
+                    cur_threshold["FanSpeed"])
                 return written_value
             for threshold in thresholds:
                 if cur_temp > float(threshold["DownThreshold"]) and cur_temp < float(threshold["UpThreshold"]) and self.enabled.get() == 1:
-                    written_value = self.set_fan_speed(threshold["FanSpeed"])
+                    written_value = self.maybe_set_fan_speed(
+                        threshold["FanSpeed"])
                     self.cur_threshold = threshold
                     return written_value
             return None
@@ -458,30 +458,34 @@ Delta FanSpeed needed to set: {delta}%
     def _set_fan_speed(self):
         value = int(self.desired_fan_speed.get())
         if self.enabled.get() == 1:
-            self.set_fan_speed(value, update_gui=False)
+            self.maybe_set_fan_speed(value, update_gui=False)
 
-    def set_fan_speed(self, value, update_gui=True):
-        nolimit = True
+    def maybe_set_fan_speed(self, value, update_gui=True):
         force_set = False
         value = float(value)
         is_different_to_last_write = self.last_write_value != value
         differs_from_current = abs(self.cur_fan_speed-value)>self.config["delta_needed_to_set_fanspeed"]
         if is_different_to_last_write or force_set or differs_from_current:
-            if value!=0 and self.config["fanStartThreshold"] is not None and (self.cur_fan_speed==0 or nolimit):
-                threshold = self.config["fanStartThreshold"]
-                if float(value) < threshold:
-                    self.write_fan_speed(threshold)
-                    time.sleep(self.config["fanStartThresholdDelay"]/1000)
-            written_value = self.write_fan_speed(value)
-            self.last_write_value = value
+            threading.Thread(target=self.set_fan_speed, args=[value]).start()
             if update_gui:
                 self.desired_fan_speed.config(state=tk.NORMAL)
                 self.desired_fan_speed.set(value)
                 self.desired_fan_speed.config(state=tk.DISABLED)
                 # self.auto.set(1)
-            return written_value
+            return self.percentage_to_write_value(value)
+
+    def set_fan_speed(self, value):
+        nolimit = True
+        if value != 0 and self.config["fanStartThreshold"] is not None and (self.cur_fan_speed == 0 or nolimit):
+            threshold = self.config["fanStartThreshold"]
+            if float(value) < threshold:
+                self.write_fan_speed(threshold)
+                time.sleep(self.config["fanStartThresholdDelay"]/1000)
+        self.write_fan_speed(value)
+        self.last_write_value = value
     
     def write_fan_speed(self, value):
+        # print(value)
         register = self.config["writeRegister"]
         write_value = self.percentage_to_write_value(value)
         # print("Set: {}, {}".format(write_value, value))

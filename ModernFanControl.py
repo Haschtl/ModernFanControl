@@ -216,6 +216,7 @@ class ModernFanControl():
         reset_required = load_dictkey(fan_config, "ResetRequired", False, bool)
         fan_speed_reset_value = load_dictkey(fan_config, "FanSpeedResetValue", 0, int)
         fan_display_name = load_dictkey(fan_config, "FanDisplayName", False, str)
+        delta = load_dictkey(fan_config, "DeltaFanspeedNeededForWrite", 5, int)
         
         self.config = {
             "writeRegister": write_register,
@@ -230,6 +231,7 @@ class ModernFanControl():
             "resetRequired": reset_required,
             "fanSpeedResetValue": fan_speed_reset_value,
             "fanDisplayName": fan_display_name,
+            "delta_needed_to_set_fanspeed": delta
         }
         self.cur_threshold = None
 
@@ -338,6 +340,7 @@ Poll interval: {poll}s
 Reset: Enabled: {reset}, Value: {resetv} (not supported)
 Critical temperature: {critic}°C
 ReadWriteWords: {words} (not supported)
+Delta FanSpeed needed to set: {delta}%
         """.format(write=self.config["writeRegister"], 
                    read=self.config["readRegister"],
                    sprmin=self.config["minSpeedValueRead"],
@@ -354,6 +357,7 @@ ReadWriteWords: {words} (not supported)
                    author=self.config["author"],
                    critic=self.config["criticalTemperature"],
                    words=self.config["readWriteWords"],
+                   delta=self.config["delta_needed_to_set_fanspeed"]
         )
         return info_str
 
@@ -461,7 +465,7 @@ ReadWriteWords: {words} (not supported)
         force_set = False
         value = float(value)
         is_different_to_last_write = self.last_write_value != value
-        differs_from_current = abs(self.cur_fan_speed-value)>5
+        differs_from_current = abs(self.cur_fan_speed-value)>self.config["delta_needed_to_set_fanspeed"]
         if is_different_to_last_write or force_set or differs_from_current:
             if value!=0 and self.config["fanStartThreshold"] is not None and (self.cur_fan_speed==0 or nolimit):
                 threshold = self.config["fanStartThreshold"]

@@ -8,6 +8,8 @@
   <FanConfigurations>
     <FanConfiguration>
 	<FanStartThreshold>100</FanStartThreshold>
+	<FanStartThresholdDelay>2500</FanStartThresholdDelay>
+  <DeltaFanspeedNeededForWrite>5</DeltaFanspeedNeededForWrite>
       <ReadRegister>88</ReadRegister>
       <WriteRegister>244</WriteRegister>
       <MinSpeedValue>20</MinSpeedValue>

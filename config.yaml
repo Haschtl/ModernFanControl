@@ -1,0 +1,11 @@
+nbfc-path: C:\Program Files (x86)\NoteBook FanControl
+config-paths: [
+  ./configs,
+# C:\Program Files (x86)\NoteBook FanControl\Configs\HP Spectre x360 Convertible 15-df1015ng.xml,
+# C:\Program Files (x86)\NoteBook FanControl\Configs\HP Spectre x360 Convertible 15-df1015ng_strict.xml,
+# C:\Program Files (x86)\NoteBook FanControl\Configs\HP Spectre x360 Convertible 15-df1015ng_off.xml,
+# C:\Program Files (x86)\NoteBook FanControl\Configs\HP Spectre x360 Convertible 15-df1015ng_alwayson.xml,
+# C:\Program Files (x86)\NoteBook FanControl\Configs\
+]
+minimized: true
+hotkey: "ctrl+alt+4"

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<FanControlConfigV2 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <NotebookModel>Normal</NotebookModel>
+  <Author>Sebastian Keller</Author>
+  <EcPollInterval>3000</EcPollInterval>
+  <ReadWriteWords>false</ReadWriteWords>
+  <CriticalTemperature>75</CriticalTemperature>
+  <FanConfigurations>
+    <FanConfiguration>
+	<FanStartThreshold>100</FanStartThreshold>
+	<FanStartThresholdDelay>2500</FanStartThresholdDelay>
+      <ReadRegister>88</ReadRegister>
+      <WriteRegister>244</WriteRegister>
+      <MinSpeedValue>37</MinSpeedValue>
+      <MaxSpeedValue>98</MaxSpeedValue>
+      <IndependentReadMinMaxValues>true</IndependentReadMinMaxValues>
+      <MinSpeedValueRead>37</MinSpeedValueRead>
+      <MaxSpeedValueRead>98</MaxSpeedValueRead>
+      <ResetRequired>true</ResetRequired>
+      <FanSpeedResetValue>0</FanSpeedResetValue>
+      <FanDisplayName>CPU Fan</FanDisplayName>
+      <TemperatureThresholds>
+        <TemperatureThreshold>
+          <UpThreshold>37</UpThreshold>
+          <DownThreshold>0</DownThreshold>
+          <FanSpeed>0</FanSpeed>
+        </TemperatureThreshold>
+        <TemperatureThreshold>
+          <UpThreshold>50</UpThreshold>
+          <DownThreshold>35</DownThreshold>
+          <FanSpeed>10</FanSpeed>
+        </TemperatureThreshold>
+        <TemperatureThreshold>
+          <UpThreshold>55</UpThreshold>
+          <DownThreshold>49</DownThreshold>
+          <FanSpeed>20</FanSpeed>
+        </TemperatureThreshold>
+        <TemperatureThreshold>
+          <UpThreshold>61</UpThreshold>
+          <DownThreshold>54</DownThreshold>
+          <FanSpeed>50</FanSpeed>
+        </TemperatureThreshold>
+        <TemperatureThreshold>
+          <UpThreshold>67</UpThreshold>
+          <DownThreshold>60</DownThreshold>
+          <FanSpeed>75</FanSpeed>
+        </TemperatureThreshold>
+        <TemperatureThreshold>
+          <UpThreshold>105</UpThreshold>
+          <DownThreshold>68</DownThreshold>
+          <FanSpeed>100</FanSpeed>
+        </TemperatureThreshold>
+      </TemperatureThresholds>
+      <FanSpeedPercentageOverrides>
+        <FanSpeedPercentageOverride>
+          <FanSpeedPercentage>50</FanSpeedPercentage>
+          <FanSpeedValue>50</FanSpeedValue>
+        </FanSpeedPercentageOverride>
+        <FanSpeedPercentageOverride>
+          <FanSpeedPercentage>75</FanSpeedPercentage>
+          <FanSpeedValue>80</FanSpeedValue>
+        </FanSpeedPercentageOverride>
+      </FanSpeedPercentageOverrides>
+    </FanConfiguration>
+  </FanConfigurations>
+  <RegisterWriteConfigurations />
+</FanControlConfigV2>
